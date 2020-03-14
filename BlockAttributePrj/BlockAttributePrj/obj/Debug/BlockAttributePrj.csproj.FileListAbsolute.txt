@@ -1,0 +1,46 @@
+C:\Users\huynh\Documents\Visual Studio 2017\Projects\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj_MarkupCompile.cache
+C:\Users\huynh\Documents\Visual Studio 2017\Projects\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj_MarkupCompile.lref
+C:\Users\huynh\Documents\Visual Studio 2017\Projects\BlockAttributePrj\BlockAttributePrj\bin\Debug\BlockAttributePrj.dll.config
+C:\Users\huynh\Documents\Visual Studio 2017\Projects\BlockAttributePrj\BlockAttributePrj\bin\Debug\BlockAttributePrj.dll
+C:\Users\huynh\Documents\Visual Studio 2017\Projects\BlockAttributePrj\BlockAttributePrj\bin\Debug\BlockAttributePrj.pdb
+C:\Users\huynh\Documents\Visual Studio 2017\Projects\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.g.resources
+C:\Users\huynh\Documents\Visual Studio 2017\Projects\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.Properties.Resources.resources
+C:\Users\huynh\Documents\Visual Studio 2017\Projects\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.csproj.GenerateResource.cache
+C:\Users\huynh\Documents\Visual Studio 2017\Projects\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.csproj.CoreCompileInputs.cache
+C:\Users\huynh\Documents\Visual Studio 2017\Projects\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.dll
+C:\Users\huynh\Documents\Visual Studio 2017\Projects\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.pdb
+C:\Users\huynh\Documents\Visual Studio 2017\Projects\BlockAttributePrj\BlockAttributePrj\obj\Debug\ModifyBlock.g.cs
+C:\Users\huynh\Documents\Visual Studio 2017\Projects\BlockAttributePrj\BlockAttributePrj\obj\Debug\ModifyBlock.baml
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\obj\Debug\ModifyBlock.g.cs
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj_MarkupCompile.cache
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj_MarkupCompile.lref
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.dll
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.pdb
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\BlockAttributePrj.dll.config
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\BlockAttributePrj.dll
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\BlockAttributePrj.pdb
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcCoreMgd.dll
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcDbMgd.dll
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcMgd.dll
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcWindows.dll
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\AdUIMgd.dll
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\AdWindows.dll
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcTcMgd.dll
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\AdUiPalettes.dll
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcCui.dll
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcCoreMgd.xml
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcDbMgd.xml
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcMgd.xml
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcWindows.xml
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\AdUIMgd.xml
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\AdWindows.xml
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcTcMgd.xml
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\AdUiPalettes.xml
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcCui.xml
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\obj\Debug\ModifyBlock.baml
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.g.resources
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.Properties.Resources.resources
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.csproj.GenerateResource.cache
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.csproj.CoreCompileInputs.cache
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.csproj.CopyComplete
+C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.csprojAssemblyReference.cache

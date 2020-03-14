@@ -1,0 +1,110 @@
+﻿<Window x:Class="BlockAttributePrj.ModifyBlock"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BlockAttributePrj"
+        mc:Ignorable="d"
+        Title="Modify Block Attribute" Height="450" Width="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <!--<ColumnDefinition Width="*"/>-->
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Grid.Row="0">
+            <GroupBox Header="List Block" FontSize="15">
+                <ListView ItemsSource="{Binding BlkProperties}" SelectedItem="{Binding blkSelected}" SelectionChanged="ListView_SelectionChanged" >
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="true" x:Name="GridView">
+                            <GridViewColumn Header="Block Name" DisplayMemberBinding="{Binding Path=BlockName}" Width="120"/>
+                            <GridViewColumn Header="BlockId" DisplayMemberBinding="{Binding Path=BlockId}" Width="120" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </GroupBox>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <GroupBox Header="Atrribute" FontSize="15">
+                <ListView ItemsSource="{Binding blkAttributes}" SelectedItem="{Binding blkAttributeSelected, Mode=TwoWay}" >
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="true" x:Name="GridAttribute">
+                            <GridViewColumn Header="Tag" DisplayMemberBinding="{Binding Path=AtrributeTag,Mode=TwoWay}" Width="70">
+                                <!--<GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Path=AtrributeTag,Mode=TwoWay}" Width="150"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>-->
+                            </GridViewColumn>
+                            <!--<GridViewColumn Header="Promt" DisplayMemberBinding="{Binding Path=Promt,Mode=TwoWay}" Width="60">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Path=Promt,Mode=TwoWay}" Width="150"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>-->
+                            <GridViewColumn Header="Value" Width="80">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Path=Value,Mode=TwoWay}" Width="150"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Text Height" Width="120">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Path=TextHeight,Mode=TwoWay}" Width="150"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Invisible"  Width="60">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=CheckInvisible,Mode=TwoWay}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </GroupBox>
+        </Grid>
+        <!--<Grid Grid.Column="2" Grid.Row="0">
+            --><!--<GroupBox Header="Text Options" FontSize="15">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Text Style" Height="40" Width="110" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,20,0,19"/>
+
+                    <ComboBox Grid.Row="0" Height="40" Width="110" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,20,10,19"/>
+
+                    <Label Grid.Row="1" Content="Text Heigh" Height="40" Width="110" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,19,0,20" />
+
+                    <TextBox Text="{Binding }" Grid.Row="1" Height="40" Width="110" HorizontalAlignment="Right" Margin="0,19,10,20"/>
+
+                </Grid>
+
+            </GroupBox>--><!--
+        </Grid>-->
+        <Grid Grid.Row="1" Grid.Column="0"/>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Button Content="Ok" Command="{Binding OKCmd}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,  AncestorType={x:Type Window}}}"
+                    Height="40" Width="120" Margin="134,10,10,11"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="2">
+            <Button Content="Cancel" Command="{Binding CancelCmd}"  CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,
+                                                               AncestorType={x:Type Window}}}"
+                    Height="40" Width="120" Margin="10,10,134,11"/>
+        </Grid>
+    </Grid>
+</Window>
