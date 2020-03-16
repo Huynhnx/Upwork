@@ -1,6 +1,8 @@
 
 
-FATAL ERROR:  Unhandled e0434352h Exception at 5622A859h
+FATAL ERROR:  Unhandled Access Violation Reading 0x0000 Exception at B235400Fh
 
-03/12/2020 at 16:25:58.000  Drawing: C:\Users\huynh\Desktop\visibleInvisibleAttributes\input.dwg
+03/15/2020 at 19:37:36.000  Drawing: C:\Users\huynh\Desktop\Drawing1.dwg
+-------------
+put.dwg
 -------------

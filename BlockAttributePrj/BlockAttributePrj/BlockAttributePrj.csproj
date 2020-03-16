@@ -41,22 +41,27 @@
   <ItemGroup>
     <Reference Include="AcCoreMgd, Version=23.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\CADWorx\CADWorx Development\ObjectARX\2019\inc\AcCoreMgd.dll</HintPath>
+      <HintPath>..\..\..\..\CADWorx\CADWorx Development\ObjectARX\2019\inc\AcCoreMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AcDbMgd, Version=23.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\CADWorx\CADWorx Development\ObjectARX\2019\inc\AcDbMgd.dll</HintPath>
+      <HintPath>..\..\..\..\CADWorx\CADWorx Development\ObjectARX\2019\inc\AcDbMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="acdbmgdbrep, Version=23.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\CADWorx\CADWorx Development\ObjectARX\2019\inc\acdbmgdbrep.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AcMgd, Version=23.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\CADWorx\CADWorx Development\ObjectARX\2019\inc\AcMgd.dll</HintPath>
+      <HintPath>..\..\..\..\CADWorx\CADWorx Development\ObjectARX\2019\inc\AcMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AcWindows, Version=23.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\CADWorx\CADWorx Development\ObjectARX\2019\inc\AcWindows.dll</HintPath>
+      <HintPath>..\..\..\..\CADWorx\CADWorx Development\ObjectARX\2019\inc\AcWindows.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -75,10 +80,19 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArxHelper.cs" />
+    <Compile Include="EditAllBlockView.xaml.cs">
+      <DependentUpon>EditAllBlockView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditAllBlockViewModel.cs" />
     <Compile Include="ModifyBlockViewModel.cs" />
     <Compile Include="RegisterCommands.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="ViewModelBase.cs" />
+    <Page Include="EditAllBlockView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ModifyBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

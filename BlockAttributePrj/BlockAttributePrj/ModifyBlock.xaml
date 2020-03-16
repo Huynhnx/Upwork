@@ -31,23 +31,12 @@
         </Grid>
         <Grid Grid.Column="1" Grid.Row="0">
             <GroupBox Header="Atrribute" FontSize="15">
-                <ListView ItemsSource="{Binding blkAttributes}" SelectedItem="{Binding blkAttributeSelected, Mode=TwoWay}" >
+                <ListView ItemsSource="{Binding blkAttributes, Mode=TwoWay}" SelectedItem="{Binding blkAttributeSelected, Mode=TwoWay}" >
                     <ListView.View>
                         <GridView AllowsColumnReorder="true" x:Name="GridAttribute">
                             <GridViewColumn Header="Tag" DisplayMemberBinding="{Binding Path=AtrributeTag,Mode=TwoWay}" Width="70">
-                                <!--<GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding Path=AtrributeTag,Mode=TwoWay}" Width="150"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>-->
-                            </GridViewColumn>
-                            <!--<GridViewColumn Header="Promt" DisplayMemberBinding="{Binding Path=Promt,Mode=TwoWay}" Width="60">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding Path=Promt,Mode=TwoWay}" Width="150"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>-->
+                              </GridViewColumn>
+                           
                             <GridViewColumn Header="Value" Width="80">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -75,36 +64,20 @@
                 </ListView>
             </GroupBox>
         </Grid>
-        <!--<Grid Grid.Column="2" Grid.Row="0">
-            --><!--<GroupBox Header="Text Options" FontSize="15">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Content="Text Style" Height="40" Width="110" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,20,0,19"/>
-
-                    <ComboBox Grid.Row="0" Height="40" Width="110" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,20,10,19"/>
-
-                    <Label Grid.Row="1" Content="Text Heigh" Height="40" Width="110" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,19,0,20" />
-
-                    <TextBox Text="{Binding }" Grid.Row="1" Height="40" Width="110" HorizontalAlignment="Right" Margin="0,19,10,20"/>
-
-                </Grid>
-
-            </GroupBox>--><!--
-        </Grid>-->
         <Grid Grid.Row="1" Grid.Column="0"/>
         <Grid Grid.Column="1" Grid.Row="1">
             <Button Content="Ok" Command="{Binding OKCmd}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,  AncestorType={x:Type Window}}}"
-                    Height="40" Width="120" Margin="134,10,10,11"/>
+                    Height="40" Width="120" Margin="132,18,144,18"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="2">
+            <Button Content="Edit All" Command="{Binding EditAllCmd}"  CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,
+                                                               AncestorType={x:Type Window}}}"
+                    Height="40" Width="120" Margin="268,18,8,18"/>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="2">
             <Button Content="Cancel" Command="{Binding CancelCmd}"  CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,
                                                                AncestorType={x:Type Window}}}"
-                    Height="40" Width="120" Margin="10,10,134,11"/>
+                    Height="40" Width="120" Margin="0,18,276,18"/>
         </Grid>
     </Grid>
 </Window>

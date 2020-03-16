@@ -1,0 +1,36 @@
+﻿<Window x:Class="BlockAttributePrj.EditAllBlockView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BlockAttributePrj"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        Title="Edit All Block" Height="200" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Text Height" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBox Text="{Binding TextHeight,Mode=TwoWay}" Grid.Row="0" Grid.Column="1" Height="40" Width="100" Margin="0,8,46,8">
+        </TextBox>
+        <CheckBox IsChecked="{Binding Invisible,Mode=TwoWay}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"  Content="Invisible All">
+            </CheckBox>
+        <Grid Grid.Column="1" Grid.Row="2">
+            <Button Content="Ok" Command="{Binding OKEditALlCmd}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,  AncestorType={x:Type Window}}}"
+                    Height="35" Width="120"/>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="0">
+            <Button Content="Cancel" Command="{Binding CancelEditAllCmd}"  CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,
+                                                               AncestorType={x:Type Window}}}"
+                    Height="35" Width="120" 
+                    />
+        </Grid>
+    </Grid>
+</Window>

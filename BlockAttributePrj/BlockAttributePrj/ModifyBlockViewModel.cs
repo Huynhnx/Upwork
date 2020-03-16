@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlockAttributePrj
 {
-    public class BlockAttribute
+    public class BlockAttribute:ViewModelBase
     {
         private bool bCheckInvisible = true;
         public bool CheckInvisible
@@ -23,6 +23,7 @@ namespace BlockAttributePrj
                 if (bCheckInvisible != value)
                 {
                     bCheckInvisible = value;
+                    RaisePropertyChanged("CheckInvisible");
                 }
             }
         }
@@ -38,6 +39,7 @@ namespace BlockAttributePrj
                 if (_AtrributeTag != value)
                 {
                     _AtrributeTag = value;
+                    RaisePropertyChanged("AtrributeTag");
                 }
             }
         }
@@ -53,6 +55,7 @@ namespace BlockAttributePrj
                 if (_Promt != value)
                 {
                     _Promt = value;
+                    RaisePropertyChanged("Promt");
                 }
             }
         }
@@ -68,6 +71,7 @@ namespace BlockAttributePrj
                 if (_Value != value)
                 {
                     _Value = value;
+                    RaisePropertyChanged("Value");
                 }
             }
         }
@@ -83,6 +87,7 @@ namespace BlockAttributePrj
                 if (_nTextHeight != value)
                 {
                     _nTextHeight = value;
+                    RaisePropertyChanged("TextHeight");
                 }
             }
         }
@@ -195,8 +200,7 @@ namespace BlockAttributePrj
         }
         public RelayCommand OKCmd { get; set; }
         public RelayCommand CancelCmd { get; set; }
-        public RelayCommand UncheckAllCmd { get; set; }
-        public RelayCommand CheckAllCmd { get; set; }
+        public RelayCommand EditAllCmd { get; set; }
         private ObservableCollection <BlockReferenceProperties> _blkProperties;
         public ObservableCollection <BlockReferenceProperties> BlkProperties
         {
