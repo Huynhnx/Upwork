@@ -47,24 +47,6 @@ C:\Users\huynh\Desktop\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttrib
 D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\BlockAttributePrj.dll.config
 D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\BlockAttributePrj.dll
 D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\BlockAttributePrj.pdb
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcCoreMgd.dll
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcDbMgd.dll
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcMgd.dll
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcWindows.dll
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\AdUIMgd.dll
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\AdWindows.dll
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcTcMgd.dll
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\AdUiPalettes.dll
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcCui.dll
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcCoreMgd.xml
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcDbMgd.xml
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcMgd.xml
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcWindows.xml
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\AdUIMgd.xml
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\AdWindows.xml
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcTcMgd.xml
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\AdUiPalettes.xml
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\AcCui.xml
 D:\UpWork\BlockAttributePrj\BlockAttributePrj\obj\Debug\ModifyBlock.g.cs
 D:\UpWork\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj_MarkupCompile.cache
 D:\UpWork\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj_MarkupCompile.lref
@@ -73,13 +55,10 @@ D:\UpWork\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.g.reso
 D:\UpWork\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.Properties.Resources.resources
 D:\UpWork\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.csproj.GenerateResource.cache
 D:\UpWork\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.csproj.CoreCompileInputs.cache
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.csproj.CopyComplete
 D:\UpWork\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.dll
 D:\UpWork\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.pdb
 D:\UpWork\BlockAttributePrj\BlockAttributePrj\obj\Debug\EditAllBlockView.g.cs
 D:\UpWork\BlockAttributePrj\BlockAttributePrj\obj\Debug\EditAllBlockView.baml
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\acdbmgdbrep.dll
-D:\UpWork\BlockAttributePrj\BlockAttributePrj\bin\Debug\acdbmgdbrep.xml
 D:\UpWork\BlockAttributePrj\BlockAttributePrj\obj\Debug\BlockAttributePrj.csprojAssemblyReference.cache
 D:\Upwork\Develop Autocad automation program\BlockAttributePrj\BlockAttributePrj\bin\Debug\BlockAttributePrj.dll.config
 D:\Upwork\Develop Autocad automation program\BlockAttributePrj\BlockAttributePrj\bin\Debug\BlockAttributePrj.dll

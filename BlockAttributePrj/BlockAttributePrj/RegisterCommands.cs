@@ -1,6 +1,5 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.ApplicationServices.Core;
-using Autodesk.AutoCAD.BoundaryRepresentation;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
@@ -432,9 +431,8 @@ namespace BlockAttributePrj
             Document doc =Application.DocumentManager.MdiActiveDocument;
             Editor ed = doc.Editor;
             Database db = doc.Database;
+            //Select Polyline
             PromptSelectionOptions opts = new PromptSelectionOptions();
-            //            opts.AllowSubSelections = true;
-            //            opts.ForceSubSelections = true;
             opts.SingleOnly = true;
             opts.MessageForAdding = "Select Polyline: ";
             PromptSelectionResult selRes = ed.GetSelection(opts);
@@ -462,6 +460,7 @@ namespace BlockAttributePrj
                         idSegment.Add(id);
                     }
                 }
+                pl.Visible = false;
                 tr.Commit();                
             }
             //Select Vertex
@@ -510,12 +509,12 @@ namespace BlockAttributePrj
                 ArxHelper.DeleteEntity(id);
             }
             List<int> listsegment = vertexindex.OrderBy(x => x).ToList();
- 
+
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
                 Polyline pl = (Polyline)tr.GetObject(singleId[0], OpenMode.ForWrite);
-                int j = 0;
-                if (listsegment.Count>1)
+                int j = 1;
+                if (listsegment.Count > 1)
                 {
                     ObservableCollection<SegmentInfor> segmentInfo = new ObservableCollection<SegmentInfor>();
                     SegmentInfor firstseg = new SegmentInfor();
@@ -527,7 +526,7 @@ namespace BlockAttributePrj
                     segmentInfo.Add(firstseg);
                     for (int i = 1; i < listsegment.Count; i++)
                     {
-                        if (listsegment[i] != listsegment[i-1]+1)
+                        if (listsegment[i] != listsegment[i - 1] + 1)
                         {
                             j++;
                         }
@@ -535,21 +534,28 @@ namespace BlockAttributePrj
                         partseg.PartNumber = j;
                         partseg.IndexSegment = listsegment[i];
                         LineSegment3d segmentpart3d = pl.GetLineSegmentAt(listsegment[i]);
-                        partseg.StartPoint = segmentpart3d.StartPoint;
-                        partseg.EndPoint = segmentpart3d.EndPoint;
+                        partseg.StartPoint = new Point3d(segmentpart3d.StartPoint.X, segmentpart3d.StartPoint.Y, segmentpart3d.StartPoint.Z);
+                        partseg.EndPoint = new Point3d(segmentpart3d.EndPoint.X, segmentpart3d.EndPoint.Y, segmentpart3d.EndPoint.Z);
                         segmentInfo.Add(partseg);
                     }
-                    for (int i=0;i<=j;i++)
+                    for (int i = 1; i <= j; i++)
                     {
                         List<SegmentInfor> seg = segmentInfo.Where(x => x.PartNumber == i).ToList();
+                        if (seg.Count == 0)
+                        {
+                            pl.Visible = true;
+                            return;
+                        }
                         Point3d pt = new Point3d();
                         double distance = 0;
                         Point3d ptStart = seg[0].StartPoint;
                         Point3d ptEnd = new Point3d();
-                        Line line = new Line(ptStart,ptEnd);
+
                         ptEnd = seg[seg.Count - 1].EndPoint;
-                        if (seg.Count>1)
+                        Line line = new Line(ptStart, ptEnd);
+                        if (seg.Count > 1)
                         {
+                            //Find fatest point 
                             foreach (SegmentInfor info in seg)
                             {
                                 Point3d ptmidle = line.GetClosestPointTo(info.StartPoint, false);
@@ -558,9 +564,9 @@ namespace BlockAttributePrj
                                 {
                                     distance = dis;
                                     pt = info.StartPoint;
-                                   
-                                }                                                  
+                                }
                             }
+                            //Remove vertex
                             for (int n = 1; n < seg.Count; n++)
                             {
                                 SegmentInfor info = seg[n];
@@ -571,32 +577,61 @@ namespace BlockAttributePrj
                                     {
                                         continue;
                                     }
-                                    if (n==1)
+                                    if (n == 1)
                                     {
                                         pl.RemoveVertexAt(vex);
+                                        if (j > 0)
+                                        {
+                                            foreach (var inf in segmentInfo)
+                                            {
+                                                if (inf.IndexSegment > 0)
+                                                {
+                                                    inf.IndexSegment--;
+                                                }
+                                            }
+                                        }
                                     }
                                     else
                                     {
                                         pl.RemoveVertexAt(vex - 1);
+                                        if (j > 0)
+                                        {
+                                            foreach (var inf in segmentInfo)
+                                            {
+                                                if (inf.IndexSegment > 0)
+                                                {
+                                                    inf.IndexSegment--;
+                                                }
+                                            }
+                                        }
                                     }
-                                   
+
                                 }
                             }
-
-                            Line l = new Line(ptStart, ptEnd);
-                            Point3d closetpoint = l.GetClosestPointTo(pt,false);
+                            // Calculate arc bulge
+                            Point3d closetpoint = line.GetClosestPointTo(pt, false);
                             double fromStart = closetpoint.DistanceTo(ptStart);
                             double bul = (distance / fromStart);
-                            if (Clockwise(ptStart,pt,ptEnd))
+                            int ind = i;
+                            if (Clockwise(ptStart, pt, ptEnd))
                             {
-                                pl.SetBulgeAt(seg[i].IndexSegment, -bul);
+                                
+                                if (i>=seg.Count)
+                                {
+                                    ind = seg.Count - 1;
+                                }
+                                pl.SetBulgeAt(seg[ind].IndexSegment, -bul);
                             }
                             else
                             {
-                                pl.SetBulgeAt(seg[i].IndexSegment, bul);
+                                if (i >= seg.Count)
+                                {
+                                    ind = seg.Count - 1;
+                                }
+                                pl.SetBulgeAt(seg[ind].IndexSegment, bul);
                             }
-                            
-                        }                    
+                            pl.Visible = true;
+                        }
                     }
                 }
 
