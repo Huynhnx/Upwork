@@ -21,6 +21,7 @@ namespace BlockAttributePrj
         public int IndexSegment;
         public int PartNumber;
         public Point3d StartPoint;
+        public Point3d EndPoint;
 
     }
     public class RegisterCommands
@@ -535,6 +536,7 @@ namespace BlockAttributePrj
                         partseg.IndexSegment = listsegment[i];
                         LineSegment3d segmentpart3d = pl.GetLineSegmentAt(listsegment[i]);
                         partseg.StartPoint = segmentpart3d.StartPoint;
+                        partseg.EndPoint = segmentpart3d.EndPoint;
                         segmentInfo.Add(partseg);
                     }
                     for (int i=0;i<=j;i++)
@@ -543,8 +545,9 @@ namespace BlockAttributePrj
                         Point3d pt = new Point3d();
                         double distance = 0;
                         Point3d ptStart = seg[0].StartPoint;
-                        Point3d ptEnd = pl.GetLineSegmentAt(pl.NumberOfVertices - 2).EndPoint;
+                        Point3d ptEnd = new Point3d();
                         Line line = new Line(ptStart,ptEnd);
+                        ptEnd = seg[seg.Count - 1].EndPoint;
                         if (seg.Count>1)
                         {
                             foreach (SegmentInfor info in seg)
@@ -558,31 +561,41 @@ namespace BlockAttributePrj
                                    
                                 }                                                  
                             }
-                            for (int n = 1; n < seg.Count-1; n++)
+                            for (int n = 1; n < seg.Count; n++)
                             {
                                 SegmentInfor info = seg[n];
                                 if (pl.NumberOfVertices > 2)
                                 {
-                                    var vex = info.IndexSegment + 1;
+                                    var vex = info.IndexSegment;
                                     if (info.IndexSegment >= pl.NumberOfVertices)
                                     {
                                         continue;
                                     }
-                                    pl.RemoveVertexAt(vex);
+                                    if (n==1)
+                                    {
+                                        pl.RemoveVertexAt(vex);
+                                    }
+                                    else
+                                    {
+                                        pl.RemoveVertexAt(vex - 1);
+                                    }
+                                   
                                 }
                             }
-                            
-                            // convert points to 2d points
-                            var plane = new Plane(Point3d.Origin, Vector3d.ZAxis);
-                            var p1 = ptStart.Convert2d(plane);
-                            var p2 = pt.Convert2d(plane);
-                            var p3 = ptEnd.Convert2d(plane);
 
-                            // compute the bulge of the second segment
-                            var angle1 = p1.GetVectorTo(p2).Angle;
-                            var angle2 = p2.GetVectorTo(p3).Angle;
-                            var bulge = Math.Tan((angle2 - angle1) / 2.0);
-                            pl.SetBulgeAt(seg[0].IndexSegment,bulge);
+                            Line l = new Line(ptStart, ptEnd);
+                            Point3d closetpoint = l.GetClosestPointTo(pt,false);
+                            double fromStart = closetpoint.DistanceTo(ptStart);
+                            double bul = (distance / fromStart);
+                            if (Clockwise(ptStart,pt,ptEnd))
+                            {
+                                pl.SetBulgeAt(seg[i].IndexSegment, -bul);
+                            }
+                            else
+                            {
+                                pl.SetBulgeAt(seg[i].IndexSegment, bul);
+                            }
+                            
                         }                    
                     }
                 }
@@ -593,63 +606,16 @@ namespace BlockAttributePrj
 
         }
 
-        [CommandMethod("Test")]
-        public void Test()
+        /// <summary>
+        /// Evaluates if the points are clockwise.
+        /// </summary>
+        /// <param name="p1">First point.</param>
+        /// <param name="p2">Second point</param>
+        /// <param name="p3">Third point</param>
+        /// <returns>True if points are clockwise, False otherwise.</returns>
+        private static bool Clockwise(Point3d p1, Point3d p2, Point3d p3)
         {
-            Document doc = Application.DocumentManager.MdiActiveDocument;
-            Database db = doc.Database;
-            Editor ed = doc.Editor;
-
-            // prompt for first point
-            var options = new PromptPointOptions("\nFirst point: ");
-            var result = ed.GetPoint(options);
-            if (result.Status != PromptStatus.OK)
-                return;
-            var pt1 = result.Value;
-
-            // prompt for second point
-            options.Message = "\nSecond point: ";
-            options.BasePoint = pt1;
-            options.UseBasePoint = true;
-            result = ed.GetPoint(options);
-            if (result.Status != PromptStatus.OK)
-                return;
-            var pt2 = result.Value;
-
-            // prompt for third point
-            options.Message = "\nThird point: ";
-            options.BasePoint = pt2;
-            result = ed.GetPoint(options);
-            if (result.Status != PromptStatus.OK)
-                return;
-            var pt3 = result.Value;
-
-            // convert points to 2d points
-            var plane = new Plane(Point3d.Origin, Vector3d.ZAxis);
-            var p1 = pt1.Convert2d(plane);
-            var p2 = pt2.Convert2d(plane);
-            var p3 = pt3.Convert2d(plane);
-
-            // compute the bulge of the second segment
-            var angle1 = p1.GetVectorTo(p2).Angle;
-            var angle2 = p2.GetVectorTo(p3).Angle;
-            var bulge = Math.Tan((angle2 - angle1) / 2.0);
-
-            // add the polyline to the current space
-            using (Transaction tr = db.TransactionManager.StartTransaction())
-            {
-                var curSpace = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite);
-                using (var pline = new Polyline())
-                {
-                    pline.AddVertexAt(0, p1, 0.0, 0.0, 0.0);
-                    pline.AddVertexAt(1, p2, bulge, 0.0, 0.0);
-                    pline.AddVertexAt(2, p3, 0.0, 0.0, 0.0);
-                    pline.TransformBy(ed.CurrentUserCoordinateSystem);
-                    curSpace.AppendEntity(pline);
-                    tr.AddNewlyCreatedDBObject(pline, true);
-                }
-                tr.Commit();
-            }
+            return ((p2.X - p1.X) * (p3.Y - p1.Y) - (p2.Y - p1.Y) * (p3.X - p1.X)) < 1e-8;
         }
     }
 }
