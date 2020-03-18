@@ -5,8 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BlockAttributePrj"
         mc:Ignorable="d"
+        Background="LightGray"
         Title="Modify Block Attribute" Height="450" Width="800">
-
+    <Window.Resources>
+        <ControlTemplate x:Key="ButtonTemplate">
+            <Border Name="fondoboton" BorderBrush="DarkGray" BorderThickness="5" 
+            CornerRadius="10,10,10,10"
+             Background="LightSkyBlue">
+                <ContentPresenter Name="contenido" VerticalAlignment="Center" HorizontalAlignment="Center"
+                          Content="{Binding Path=Content,
+                          RelativeSource={RelativeSource TemplatedParent}}">
+                </ContentPresenter>
+            </Border>
+        </ControlTemplate>
+        <Style TargetType="Button">
+            <Setter Property="Template" Value="{StaticResource ButtonTemplate}"/>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="9*"/>
@@ -19,7 +34,7 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0" Grid.Row="0">
             <GroupBox Header="List Block" FontSize="15">
-                <ListView ItemsSource="{Binding BlkProperties}" SelectedItem="{Binding blkSelected}" SelectionChanged="ListView_SelectionChanged" >
+                <ListView Background="LightGray" ItemsSource="{Binding BlkProperties}" SelectedItem="{Binding blkSelected}" SelectionChanged="ListView_SelectionChanged" >
                     <ListView.View>
                         <GridView AllowsColumnReorder="true" x:Name="GridView">
                             <GridViewColumn Header="Block Name" DisplayMemberBinding="{Binding Path=BlockName}" Width="120"/>
@@ -31,12 +46,11 @@
         </Grid>
         <Grid Grid.Column="1" Grid.Row="0">
             <GroupBox Header="Atrribute" FontSize="15">
-                <ListView ItemsSource="{Binding blkAttributes, Mode=TwoWay}" SelectedItem="{Binding blkAttributeSelected, Mode=TwoWay}" >
+                <ListView Background="LightGray" ItemsSource="{Binding blkAttributes, Mode=TwoWay}" SelectedItem="{Binding blkAttributeSelected, Mode=TwoWay}" >
                     <ListView.View>
                         <GridView AllowsColumnReorder="true" x:Name="GridAttribute">
                             <GridViewColumn Header="Tag" DisplayMemberBinding="{Binding Path=AtrributeTag,Mode=TwoWay}" Width="70">
-                              </GridViewColumn>
-                           
+                            </GridViewColumn>
                             <GridViewColumn Header="Value" Width="80">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>

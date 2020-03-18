@@ -6,7 +6,23 @@
         xmlns:local="clr-namespace:BlockAttributePrj"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
+        Background="LightGray"
         Title="Edit All Block" Height="200" Width="300">
+    <Window.Resources>
+        <ControlTemplate x:Key="ButtonTemplate">
+            <Border Name="fondoboton" BorderBrush="DarkGray" BorderThickness="5" 
+            CornerRadius="10,10,10,10"
+            Background="LightSkyBlue">
+                <ContentPresenter Name="contenido" VerticalAlignment="Center" HorizontalAlignment="Center"
+                          Content="{Binding Path=Content,
+                          RelativeSource={RelativeSource TemplatedParent}}">
+                </ContentPresenter>
+            </Border>
+        </ControlTemplate>
+        <Style TargetType="Button">
+            <Setter Property="Template" Value="{StaticResource ButtonTemplate}"/>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
