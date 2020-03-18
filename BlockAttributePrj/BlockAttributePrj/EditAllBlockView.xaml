@@ -34,7 +34,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Label Content="Text Height" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBox Text="{Binding TextHeight,Mode=TwoWay}" Grid.Row="0" Grid.Column="1" Height="40" Width="100" Margin="0,8,46,8">
+        <TextBox Text="{Binding TextHeight,Mode=TwoWay}" Background="LightGray" Grid.Row="0" Grid.Column="1" Height="30" Width="100" Margin="0,8,46,8">
         </TextBox>
         <CheckBox IsChecked="{Binding Invisible,Mode=TwoWay}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"  Content="Invisible All">
             </CheckBox>
