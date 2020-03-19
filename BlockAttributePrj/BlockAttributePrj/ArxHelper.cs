@@ -1,5 +1,6 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,9 @@ namespace BlockAttributePrj
 {
     class ArxHelper
     {
+        public static double _PI = 3.14159265358979323846;
+        public static double _2PI = 6.28318530717958647693;
+        public static double _HALFPI = 1.57079632679489661923;
         public static ObjectId AppendEntity(Entity ent)
         {
             ObjectId objId = ObjectId.Null;

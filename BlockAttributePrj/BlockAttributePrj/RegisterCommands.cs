@@ -647,7 +647,141 @@ namespace BlockAttributePrj
         [CommandMethod("CreateBuildingLines")]
         public static void CreateBuildingLines()
         {
+            //Get document, DataBase and Editor
+            Document doc = Application.DocumentManager.MdiActiveDocument;
 
+            Database db = doc.Database;
+
+            Editor ed = doc.Editor;
+            TypedValue[] filList = new TypedValue[1] {new TypedValue((int)DxfCode.Start, "INSERT")};
+
+            SelectionFilter filter = new SelectionFilter(filList);
+
+            PromptSelectionOptions opts =new PromptSelectionOptions();
+
+            opts.MessageForAdding = "Select block references: ";
+            PromptSelectionResult res = ed.GetSelection(opts, filter);
+            if (res.Status != PromptStatus.OK)
+            {
+                return;
+            }
+
+            if (res.Value.Count != 0)
+            {
+                SelectionSet set = res.Value;
+                ObjectId[] Ids = set.GetObjectIds();
+                //Select 2 block
+                if (Ids.Length == 2)
+                {
+                    ObjectId Id1 = Ids[0];
+                    ObjectId Id2 = Ids[1];
+                    if (Id1.IsValid && Id2.IsValid)
+                    {
+                        //Start Transaction
+                        using (Transaction tr = db.TransactionManager.StartTransaction())
+                        {
+                            BlockReference blk1 = tr.GetObject(Id1,OpenMode.ForRead) as BlockReference;
+                            BlockReference blk2 = tr.GetObject(Id2,OpenMode.ForRead) as BlockReference;
+                            if (blk1 != null && blk2 != null)
+                            {
+                                Point3d point1 = blk1.Position;
+                                Point3d point2 = blk2.Position;
+                                PromptAngleOptions dir = new PromptAngleOptions("\nGet Direction");
+                                dir.BasePoint = point1;
+                                dir.UseBasePoint = true;
+                                PromptDoubleResult ptRes2 = ed.GetAngle(dir);
+                                double angle = 0;
+                                if (ptRes2.Status == PromptStatus.OK)
+                                {
+                                    angle = ptRes2.Value;
+                                    Line line = new Line(point1,point2);
+                                    Vector3d mainVect = point2 - point1;
+                                    Vector3d xvect = Vector3d.XAxis;
+                                    double mainangle = xvect.GetAngleTo(mainVect);
+                                    Vector3d vectdir = point2 - point1;
+                                    Point3d EndPoint = new Point3d();
+                                    Point3d StartPoint = new Point3d();
+                                    if (mainangle > angle)
+                                    {
+                                        EndPoint = point1 + vectdir.GetPerpendicularVector().GetNormal() * (-3);
+                                        StartPoint = point2 + vectdir.GetPerpendicularVector().GetNormal() * (-3);
+                                    }
+                                    else
+                                    {
+                                        EndPoint = point1 + vectdir.GetPerpendicularVector().GetNormal() * (3);
+                                        StartPoint = point2 + vectdir.GetPerpendicularVector().GetNormal() * (3);
+                                    }
+                                    Point3dCollection vertex = new Point3dCollection();
+                                    vertex.Add(EndPoint);
+                                    vertex.Add(point1);
+                                    vertex.Add(point2);
+                                    vertex.Add(StartPoint);
+                                    Polyline3d pl3d = new Polyline3d(Poly3dType.SimplePoly, vertex, false);
+                                    ArxHelper.AppendEntity(pl3d);
+                                    vertex.Dispose();
+                                }
+
+                            }
+                            tr.Commit();
+                        }
+                    }
+                }
+                //Select 4 block
+                else if (Ids.Length == 4)
+                {
+                    ObjectId Id1 = Ids[0];
+                    ObjectId Id2 = Ids[1];
+                    ObjectId Id3 = Ids[2];
+                    ObjectId Id4 = Ids[3];
+                    if (Id1.IsValid && Id2.IsValid && Id3.IsValid && Id4.IsValid)
+                    {
+                        //Start Transaction
+                        using (Transaction tr = db.TransactionManager.StartTransaction())
+                        {
+                            BlockReference blk1 = tr.GetObject(Id1, OpenMode.ForRead) as BlockReference;
+                            BlockReference blk2 = tr.GetObject(Id2, OpenMode.ForRead) as BlockReference;
+                            BlockReference blk3 = tr.GetObject(Id3, OpenMode.ForRead) as BlockReference;
+                            BlockReference blk4 = tr.GetObject(Id4, OpenMode.ForRead) as BlockReference;
+                            if (blk1!= null && blk2!= null && blk3!= null && blk4!= null)
+                            {
+                                Point3d pt1 = blk1.Position;
+                                Point3d pt2 = blk2.Position;
+                                Point3d pt3 = blk3.Position;
+                                Point3d pt4 = blk4.Position;
+                                Vector3d v12 = pt2 - pt1;
+                                Vector3d v13 = pt3 - pt1;
+                                Vector3d v14 = pt4 - pt1;
+                                Vector3d v23 = pt3 - pt2;
+                                Vector3d v24 = pt4 - pt2;
+                                Vector3d v34 = pt4 - pt3;
+                                if (v12.IsParallelTo(v34))
+                                {
+                                    Line line12 = new Line(pt1, pt2);
+                                    Line line34 = new Line(pt3, pt4);
+                                    Point3d ptex1 = line12.GetClosestPointTo(pt3, true);
+                                    Point3d ptex2 = line34.GetClosestPointTo(pt4, true);
+                                    Point3dCollection points1 = new Point3dCollection();
+                                    points1.Add(ptex1);
+                                    points1.Add(pt3);
+                                    points1.Add(pt4);
+                                    points1.Add(ptex2);
+                                    Polyline3d pl1 = new Polyline3d(Poly3dType.SimplePoly,points1,false);
+                                    ArxHelper.AppendEntity(pl1);
+                                }
+                                else if (v13.IsParallelTo(v24))
+                                {
+
+                                }
+                                else if (v14.IsParallelTo(v23))
+                                {
+
+                                }
+                            }
+                            tr.Commit();
+                        }
+                    }
+                }
+            }
         }
     }
 }
