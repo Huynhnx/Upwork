@@ -99,4 +99,12 @@ namespace BlockAttributePrj
             return first;
         }
     }
+    public class SegmentInfor
+    {
+        public int IndexSegment;
+        public int PartNumber;
+        public Point3d StartPoint;
+        public Point3d EndPoint;
+
+    }
 }

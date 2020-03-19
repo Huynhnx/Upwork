@@ -14,15 +14,7 @@ using AcadService = Autodesk.AutoCAD.ApplicationServices;
 using Application = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace BlockAttributePrj
-{
-    public class SegmentInfor
-    {
-        public int IndexSegment;
-        public int PartNumber;
-        public Point3d StartPoint;
-        public Point3d EndPoint;
-
-    }
+{   
     public class RegisterCommands
     {
         [CommandMethod("ModifyBlock")]
@@ -651,6 +643,11 @@ namespace BlockAttributePrj
         private static bool Clockwise(Point3d p1, Point3d p2, Point3d p3)
         {
             return ((p2.X - p1.X) * (p3.Y - p1.Y) - (p2.Y - p1.Y) * (p3.X - p1.X)) < 1e-8;
+        }
+        [CommandMethod("CreateBuildingLines")]
+        public static void CreateBuildingLines()
+        {
+
         }
     }
 }
