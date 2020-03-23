@@ -654,31 +654,18 @@ namespace BlockAttributePrj
                             {
                                 Point3d point1 = blk1.Position;
                                 Point3d point2 = blk2.Position;
-                                PromptAngleOptions dir = new PromptAngleOptions("\nGet Direction");
-                                dir.BasePoint = point1;
-                                dir.UseBasePoint = true;
-                                PromptDoubleResult ptRes2 = ed.GetAngle(dir);
-                                double angle = 0;
-                                if (ptRes2.Status == PromptStatus.OK)
+                               
+                                PromptPointOptions op = new PromptPointOptions("Pick Direction:");
+                                op.UseBasePoint = true;
+                                op.BasePoint = point1;
+                                Line line = new Line(point1, point2);
+                                PromptPointResult r = ed.GetPoint(op);
+                                if (r.Status == PromptStatus.OK)
                                 {
-                                    angle = ptRes2.Value;
-                                    Line line = new Line(point1,point2);
-                                    Vector3d mainVect = point2 - point1;
-                                    Vector3d xvect = Vector3d.XAxis;
-                                    double mainangle = xvect.GetAngleTo(mainVect);
-                                    Vector3d vectdir = point2 - point1;
-                                    Point3d EndPoint = new Point3d();
-                                    Point3d StartPoint = new Point3d();
-                                    if (mainangle > angle)
-                                    {
-                                        EndPoint = point1 + vectdir.GetPerpendicularVector().GetNormal() * (-3);
-                                        StartPoint = point2 + vectdir.GetPerpendicularVector().GetNormal() * (-3);
-                                    }
-                                    else
-                                    {
-                                        EndPoint = point1 + vectdir.GetPerpendicularVector().GetNormal() * (3);
-                                        StartPoint = point2 + vectdir.GetPerpendicularVector().GetNormal() * (3);
-                                    }
+                                    Point3dCollection pts = new Point3dCollection();
+                                    Point3d pt= line.GetClosestPointTo(r.Value, true);
+                                    Point3d EndPoint = point1 + (r.Value - pt).GetNormal()* 3;
+                                    Point3d StartPoint = point2 + (r.Value - pt).GetNormal() * 3;
                                     Point3dCollection vertex = new Point3dCollection();
                                     vertex.Add(EndPoint);
                                     vertex.Add(point1);
@@ -688,7 +675,6 @@ namespace BlockAttributePrj
                                     ArxHelper.AppendEntity(pl3d);
                                     vertex.Dispose();
                                 }
-
                             }
                             tr.Commit();
                         }
@@ -714,15 +700,36 @@ namespace BlockAttributePrj
                             Vector3d v23 = (pt3 - pt2).GetNormal();
                             if (v12.IsPerpendicularTo(v13,ArxHelper.Tol))
                             {
-
+                                Point3dCollection verx = new Point3dCollection();
+                                verx.Add(pt3 + (pt2 - pt1).GetNormal() * 3);
+                                verx.Add(pt3);
+                                verx.Add(pt1);
+                                verx.Add(pt2);
+                                verx.Add(pt2 + (pt3-pt1).GetNormal()*3);
+                                Polyline3d pl = new Polyline3d(Poly3dType.SimplePoly, verx, false);
+                                ArxHelper.AppendEntity(pl);
                             }
                             else if (v13.IsPerpendicularTo(v23,ArxHelper.Tol))
                             {
-
+                                Point3dCollection verx = new Point3dCollection();
+                                verx.Add(pt1 + (pt2 - pt3).GetNormal() * 3);
+                                verx.Add(pt1);
+                                verx.Add(pt3);
+                                verx.Add(pt2);
+                                verx.Add(pt2 + (pt1 - pt3).GetNormal() * 3);
+                                Polyline3d pl = new Polyline3d(Poly3dType.SimplePoly, verx, false);
+                                ArxHelper.AppendEntity(pl);
                             }
                             else if (v12.IsPerpendicularTo(v23,ArxHelper.Tol))
                             {
-
+                                Point3dCollection verx = new Point3dCollection();
+                                verx.Add(pt3 + (pt1 - pt2).GetNormal() * 3);
+                                verx.Add(pt3);
+                                verx.Add(pt2);
+                                verx.Add(pt1);
+                                verx.Add(pt1 + (pt3 - pt2).GetNormal() * 3);
+                                Polyline3d pl = new Polyline3d(Poly3dType.SimplePoly, verx, false);
+                                ArxHelper.AppendEntity(pl);
                             }
                             tr.Commit();
                         }
@@ -872,6 +879,10 @@ namespace BlockAttributePrj
                             tr.Commit();
                         }
                     }
+                }
+                else if (Ids.Length == 5)
+                {
+
                 }
             }
         }

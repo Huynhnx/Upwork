@@ -40,19 +40,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AcCoreMgd">
-      <HintPath>F:\CADWorx\CADWorx Development\ObjectARX\2020\inc\AcCoreMgd.dll</HintPath>
+      <HintPath>..\..\..\..\CADWorx\CADWorx Development\ObjectARX\2019\inc\AcCoreMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AcDbMgd">
-      <HintPath>F:\CADWorx\CADWorx Development\ObjectARX\2020\inc\AcDbMgd.dll</HintPath>
+      <HintPath>..\..\..\..\CADWorx\CADWorx Development\ObjectARX\2019\inc\AcDbMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AcMgd">
-      <HintPath>F:\CADWorx\CADWorx Development\ObjectARX\2020\inc\AcMgd.dll</HintPath>
+      <HintPath>..\..\..\..\CADWorx\CADWorx Development\ObjectARX\2019\inc\AcMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AcWindows">
-      <HintPath>F:\CADWorx\CADWorx Development\ObjectARX\2020\inc\AcWindows.dll</HintPath>
+      <HintPath>..\..\..\..\CADWorx\CADWorx Development\ObjectARX\2019\inc\AcWindows.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
