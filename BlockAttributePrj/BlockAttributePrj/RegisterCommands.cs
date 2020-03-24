@@ -652,8 +652,8 @@ namespace BlockAttributePrj
                             BlockReference blk2 = tr.GetObject(Id2, OpenMode.ForRead) as BlockReference;
                             if (blk1 != null && blk2 != null)
                             {
-                                Point3d point1 = blk1.Position;
-                                Point3d point2 = blk2.Position;
+                                Point3d point1 = new Point3d(blk1.Position.X,blk1.Position.Y,0);
+                                Point3d point2 = new Point3d(blk2.Position.X, blk2.Position.Y, 0);
 
                                 PromptPointOptions op = new PromptPointOptions("Pick Direction:");
                                 op.UseBasePoint = true;
@@ -692,9 +692,9 @@ namespace BlockAttributePrj
                             BlockReference blk1 = tr.GetObject(Id1, OpenMode.ForRead) as BlockReference;
                             BlockReference blk2 = tr.GetObject(Id2, OpenMode.ForRead) as BlockReference;
                             BlockReference blk3 = tr.GetObject(Id3, OpenMode.ForRead) as BlockReference;
-                            Point3d pt1 = blk1.Position;
-                            Point3d pt2 = blk2.Position;
-                            Point3d pt3 = blk3.Position;
+                            Point3d pt1 = new Point3d(blk1.Position.X, blk1.Position.Y, 0);
+                            Point3d pt2 = new Point3d(blk2.Position.X, blk2.Position.Y, 0);
+                            Point3d pt3 = new Point3d(blk3.Position.X, blk3.Position.Y, 0);
                             ArxHelper.BuildPolylineFrom3Point(pt1,pt2,pt3);
                             tr.Commit();
                         }
@@ -718,10 +718,10 @@ namespace BlockAttributePrj
                             BlockReference blk4 = tr.GetObject(Id4, OpenMode.ForRead) as BlockReference;
                             if (blk1 != null && blk2 != null && blk3 != null && blk4 != null)
                             {
-                                Point3d pt1 = blk1.Position;
-                                Point3d pt2 = blk2.Position;
-                                Point3d pt3 = blk3.Position;
-                                Point3d pt4 = blk4.Position;
+                                Point3d pt1 = new Point3d(blk1.Position.X, blk1.Position.Y, 0);
+                                Point3d pt2 = new Point3d(blk2.Position.X, blk2.Position.Y, 0);
+                                Point3d pt3 = new Point3d(blk3.Position.X, blk3.Position.Y, 0);
+                                Point3d pt4 = new Point3d(blk4.Position.X, blk4.Position.Y, 0);
                                 Vector3d v12 = (pt2 - pt1).GetNormal();
                                 Vector3d v13 = (pt3 - pt1).GetNormal();
                                 Vector3d v14 = (pt4 - pt1).GetNormal();
@@ -864,11 +864,11 @@ namespace BlockAttributePrj
                             BlockReference blk5 = tr.GetObject(Id5, OpenMode.ForRead) as BlockReference;
                             if (blk1 != null && blk2 != null && blk3 != null && blk4 != null && blk5 != null)
                             {
-                                Point3d pt1 = blk1.Position;
-                                Point3d pt2 = blk2.Position;
-                                Point3d pt3 = blk3.Position;
-                                Point3d pt4 = blk4.Position;
-                                Point3d pt5 = blk5.Position;
+                                Point3d pt1 = new Point3d(blk1.Position.X, blk1.Position.Y, 0);
+                                Point3d pt2 = new Point3d(blk2.Position.X, blk2.Position.Y, 0);
+                                Point3d pt3 = new Point3d(blk3.Position.X, blk3.Position.Y, 0);
+                                Point3d pt4 = new Point3d(blk4.Position.X, blk4.Position.Y, 0);
+                                Point3d pt5 = new Point3d(blk5.Position.X, blk5.Position.Y, 0);
                                 if (ArxHelper.BuildPolylineFrom3Point(pt1,pt2,pt3))
                                 {
 
