@@ -648,13 +648,13 @@ namespace BlockAttributePrj
                         //Start Transaction
                         using (Transaction tr = db.TransactionManager.StartTransaction())
                         {
-                            BlockReference blk1 = tr.GetObject(Id1,OpenMode.ForRead) as BlockReference;
-                            BlockReference blk2 = tr.GetObject(Id2,OpenMode.ForRead) as BlockReference;
+                            BlockReference blk1 = tr.GetObject(Id1, OpenMode.ForRead) as BlockReference;
+                            BlockReference blk2 = tr.GetObject(Id2, OpenMode.ForRead) as BlockReference;
                             if (blk1 != null && blk2 != null)
                             {
                                 Point3d point1 = blk1.Position;
                                 Point3d point2 = blk2.Position;
-                               
+
                                 PromptPointOptions op = new PromptPointOptions("Pick Direction:");
                                 op.UseBasePoint = true;
                                 op.BasePoint = point1;
@@ -663,8 +663,8 @@ namespace BlockAttributePrj
                                 if (r.Status == PromptStatus.OK)
                                 {
                                     Point3dCollection pts = new Point3dCollection();
-                                    Point3d pt= line.GetClosestPointTo(r.Value, true);
-                                    Point3d EndPoint = point1 + (r.Value - pt).GetNormal()* 3;
+                                    Point3d pt = line.GetClosestPointTo(r.Value, true);
+                                    Point3d EndPoint = point1 + (r.Value - pt).GetNormal() * 3;
                                     Point3d StartPoint = point2 + (r.Value - pt).GetNormal() * 3;
                                     Point3dCollection vertex = new Point3dCollection();
                                     vertex.Add(EndPoint);
@@ -695,42 +695,7 @@ namespace BlockAttributePrj
                             Point3d pt1 = blk1.Position;
                             Point3d pt2 = blk2.Position;
                             Point3d pt3 = blk3.Position;
-                            Vector3d v12 = (pt2 - pt1).GetNormal();
-                            Vector3d v13 = (pt3 - pt1).GetNormal();
-                            Vector3d v23 = (pt3 - pt2).GetNormal();
-                            if (v12.IsPerpendicularTo(v13,ArxHelper.Tol))
-                            {
-                                Point3dCollection verx = new Point3dCollection();
-                                verx.Add(pt3 + (pt2 - pt1).GetNormal() * 3);
-                                verx.Add(pt3);
-                                verx.Add(pt1);
-                                verx.Add(pt2);
-                                verx.Add(pt2 + (pt3-pt1).GetNormal()*3);
-                                Polyline3d pl = new Polyline3d(Poly3dType.SimplePoly, verx, false);
-                                ArxHelper.AppendEntity(pl);
-                            }
-                            else if (v13.IsPerpendicularTo(v23,ArxHelper.Tol))
-                            {
-                                Point3dCollection verx = new Point3dCollection();
-                                verx.Add(pt1 + (pt2 - pt3).GetNormal() * 3);
-                                verx.Add(pt1);
-                                verx.Add(pt3);
-                                verx.Add(pt2);
-                                verx.Add(pt2 + (pt1 - pt3).GetNormal() * 3);
-                                Polyline3d pl = new Polyline3d(Poly3dType.SimplePoly, verx, false);
-                                ArxHelper.AppendEntity(pl);
-                            }
-                            else if (v12.IsPerpendicularTo(v23,ArxHelper.Tol))
-                            {
-                                Point3dCollection verx = new Point3dCollection();
-                                verx.Add(pt3 + (pt1 - pt2).GetNormal() * 3);
-                                verx.Add(pt3);
-                                verx.Add(pt2);
-                                verx.Add(pt1);
-                                verx.Add(pt1 + (pt3 - pt2).GetNormal() * 3);
-                                Polyline3d pl = new Polyline3d(Poly3dType.SimplePoly, verx, false);
-                                ArxHelper.AppendEntity(pl);
-                            }
+                            ArxHelper.BuildPolylineFrom3Point(pt1,pt2,pt3);
                             tr.Commit();
                         }
                     }
@@ -751,7 +716,7 @@ namespace BlockAttributePrj
                             BlockReference blk2 = tr.GetObject(Id2, OpenMode.ForRead) as BlockReference;
                             BlockReference blk3 = tr.GetObject(Id3, OpenMode.ForRead) as BlockReference;
                             BlockReference blk4 = tr.GetObject(Id4, OpenMode.ForRead) as BlockReference;
-                            if (blk1!= null && blk2!= null && blk3!= null && blk4!= null)
+                            if (blk1 != null && blk2 != null && blk3 != null && blk4 != null)
                             {
                                 Point3d pt1 = blk1.Position;
                                 Point3d pt2 = blk2.Position;
@@ -766,13 +731,13 @@ namespace BlockAttributePrj
                                 double angle1213 = (v12.GetAngleTo(v13) * 180) / Math.PI;
                                 double angle2434 = (v24.GetAngleTo(v34) * 180) / Math.PI;
                                 double angle2324 = (v24.GetAngleTo(v23) * 180) / Math.PI;
-                                double angle1314=  (v13.GetAngleTo(v14) * 180) / Math.PI;
+                                double angle1314 = (v13.GetAngleTo(v14) * 180) / Math.PI;
                                 double angle1223 = (v12.GetAngleTo(v23) * 180) / Math.PI;
                                 double angle1214 = (v12.GetAngleTo(v14) * 180) / Math.PI;
-                               
+
                                 //if ((Math.Abs(angle1213 -90)<=5 && Math.Abs(angle2434-90)<=5)
                                 //    ||(Math.Abs(angle1223 - 90) <= 5 && Math.Abs(angle1214 - 90) <= 5))
-                                if(v12.IsPerpendicularTo(v23,ArxHelper.Tol) && v34.IsPerpendicularTo(v14,ArxHelper.Tol))
+                                if (v12.IsPerpendicularTo(v23, ArxHelper.Tol) && v34.IsPerpendicularTo(v14, ArxHelper.Tol))
                                 {
                                     Point3dCollection pts = new Point3dCollection();
                                     pts.Add(pt1);
@@ -796,7 +761,7 @@ namespace BlockAttributePrj
                                 {
                                     Line line12 = new Line(pt1, pt2);
                                     Line line34 = new Line(pt3, pt4);
-                                    if (line12.Length> line34.Length)
+                                    if (line12.Length > line34.Length)
                                     {
                                         ArxHelper.BuildLine(line12, line34);
                                     }
@@ -804,8 +769,8 @@ namespace BlockAttributePrj
                                     {
                                         ArxHelper.BuildLine(line34, line12);
                                     }
-                                   
-                                    
+
+
                                 }
                                 else if (v13.IsParallelTo(v24, ArxHelper.Tol))
                                 {
@@ -859,14 +824,14 @@ namespace BlockAttributePrj
                                         pts.Add(pt2);
                                         pts.Add(pt3);
                                         pts.Add(pt4);
-                                        if (ArxHelper.IsLongestLine(blk_1.Position,blk_2.Position,pts))
+                                        if (ArxHelper.IsLongestLine(blk_1.Position, blk_2.Position, pts))
                                         {
-                                            Line l12 = new Line(blk_1.Position,blk_2.Position);
-                                            Point3d pt5= l12.GetClosestPointTo(pts[0], false);
-                                            Point3d pt6= l12.GetClosestPointTo(pts[1], false);
-                                            if(pt5.DistanceTo(pts[0]) > pt6.DistanceTo(pts[1]))
+                                            Line l12 = new Line(blk_1.Position, blk_2.Position);
+                                            Point3d pt5 = l12.GetClosestPointTo(pts[0], false);
+                                            Point3d pt6 = l12.GetClosestPointTo(pts[1], false);
+                                            if (pt5.DistanceTo(pts[0]) > pt6.DistanceTo(pts[1]))
                                             {
-                                                ArxHelper.BuilPolyline(blk_1.Position, blk_2.Position, pts[1], pt6, pts[0], pt5);                               
+                                                ArxHelper.BuilPolyline(blk_1.Position, blk_2.Position, pts[1], pt6, pts[0], pt5);
                                             }
                                             else
                                             {
@@ -882,7 +847,57 @@ namespace BlockAttributePrj
                 }
                 else if (Ids.Length == 5)
                 {
+                    ObjectId Id1 = Ids[0];
+                    ObjectId Id2 = Ids[1];
+                    ObjectId Id3 = Ids[2];
+                    ObjectId Id4 = Ids[3];
+                    ObjectId Id5 = Ids[4];
+                    if (Id1.IsValid && Id2.IsValid && Id3.IsValid && Id4.IsValid && Id5.IsValid)
+                    {
+                        //Start Transaction
+                        using (Transaction tr = db.TransactionManager.StartTransaction())
+                        {
+                            BlockReference blk1 = tr.GetObject(Id1, OpenMode.ForRead) as BlockReference;
+                            BlockReference blk2 = tr.GetObject(Id2, OpenMode.ForRead) as BlockReference;
+                            BlockReference blk3 = tr.GetObject(Id3, OpenMode.ForRead) as BlockReference;
+                            BlockReference blk4 = tr.GetObject(Id4, OpenMode.ForRead) as BlockReference;
+                            BlockReference blk5 = tr.GetObject(Id5, OpenMode.ForRead) as BlockReference;
+                            if (blk1 != null && blk2 != null && blk3 != null && blk4 != null && blk5 != null)
+                            {
+                                Point3d pt1 = blk1.Position;
+                                Point3d pt2 = blk2.Position;
+                                Point3d pt3 = blk3.Position;
+                                Point3d pt4 = blk4.Position;
+                                Point3d pt5 = blk5.Position;
+                                if (ArxHelper.BuildPolylineFrom3Point(pt1,pt2,pt3))
+                                {
 
+                                }
+                                else if (ArxHelper.BuildPolylineFrom3Point(pt1,pt2,pt4))
+                                {
+
+                                }
+                                else if (ArxHelper.BuildPolylineFrom3Point(pt1,pt2,pt5))
+                                {
+
+                                }
+                                else if (ArxHelper.BuildPolylineFrom3Point(pt2,pt3,pt4))
+                                {
+
+                                }
+                                else if (ArxHelper.BuildPolylineFrom3Point(pt2,pt3,pt5))
+                                {
+
+                                }
+                                else if (ArxHelper.BuildPolylineFrom3Point(pt3,pt4,pt5))
+                                {
+
+                                }
+
+                            }
+                            tr.Commit();
+                        }
+                    }
                 }
             }
         }

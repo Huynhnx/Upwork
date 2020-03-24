@@ -252,6 +252,49 @@ namespace BlockAttributePrj
                 return true;
             }
         }
+        public static bool BuildPolylineFrom3Point(Point3d pt1, Point3d pt2, Point3d pt3)
+        {
+            Vector3d v12 = (pt2 - pt1).GetNormal();
+            Vector3d v13 = (pt3 - pt1).GetNormal();
+            Vector3d v23 = (pt3 - pt2).GetNormal();
+            if (v12.IsPerpendicularTo(v13, ArxHelper.Tol))
+            {
+                Point3dCollection verx = new Point3dCollection();
+                verx.Add(pt3 + (pt2 - pt1).GetNormal() * 3);
+                verx.Add(pt3);
+                verx.Add(pt1);
+                verx.Add(pt2);
+                verx.Add(pt2 + (pt3 - pt1).GetNormal() * 3);
+                Polyline3d pl = new Polyline3d(Poly3dType.SimplePoly, verx, false);
+                AppendEntity(pl);
+                return true;
+            }
+            else if (v13.IsPerpendicularTo(v23, ArxHelper.Tol))
+            {
+                Point3dCollection verx = new Point3dCollection();
+                verx.Add(pt1 + (pt2 - pt3).GetNormal() * 3);
+                verx.Add(pt1);
+                verx.Add(pt3);
+                verx.Add(pt2);
+                verx.Add(pt2 + (pt1 - pt3).GetNormal() * 3);
+                Polyline3d pl = new Polyline3d(Poly3dType.SimplePoly, verx, false);
+                AppendEntity(pl);
+                return true;
+            }
+            else if (v12.IsPerpendicularTo(v23, ArxHelper.Tol))
+            {
+                Point3dCollection verx = new Point3dCollection();
+                verx.Add(pt3 + (pt1 - pt2).GetNormal() * 3);
+                verx.Add(pt3);
+                verx.Add(pt2);
+                verx.Add(pt1);
+                verx.Add(pt1 + (pt3 - pt2).GetNormal() * 3);
+                Polyline3d pl = new Polyline3d(Poly3dType.SimplePoly, verx, false);
+                AppendEntity(pl);
+                return true;
+            }
+            return false;
+        }
     }
     public class SegmentInfor
     {
