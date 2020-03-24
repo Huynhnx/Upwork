@@ -654,27 +654,7 @@ namespace BlockAttributePrj
                             {
                                 Point3d point1 = new Point3d(blk1.Position.X,blk1.Position.Y,0);
                                 Point3d point2 = new Point3d(blk2.Position.X, blk2.Position.Y, 0);
-
-                                PromptPointOptions op = new PromptPointOptions("Pick Direction:");
-                                op.UseBasePoint = true;
-                                op.BasePoint = point1;
-                                Line line = new Line(point1, point2);
-                                PromptPointResult r = ed.GetPoint(op);
-                                if (r.Status == PromptStatus.OK)
-                                {
-                                    Point3dCollection pts = new Point3dCollection();
-                                    Point3d pt = line.GetClosestPointTo(r.Value, true);
-                                    Point3d EndPoint = point1 + (r.Value - pt).GetNormal() * 3;
-                                    Point3d StartPoint = point2 + (r.Value - pt).GetNormal() * 3;
-                                    Point3dCollection vertex = new Point3dCollection();
-                                    vertex.Add(EndPoint);
-                                    vertex.Add(point1);
-                                    vertex.Add(point2);
-                                    vertex.Add(StartPoint);
-                                    Polyline3d pl3d = new Polyline3d(Poly3dType.SimplePoly, vertex, false);
-                                    ArxHelper.AppendEntity(pl3d);
-                                    vertex.Dispose();
-                                }
+                                ArxHelper.BuildPolylineFrom2Point(point1, point2);
                             }
                             tr.Commit();
                         }
@@ -871,27 +851,29 @@ namespace BlockAttributePrj
                                 Point3d pt5 = new Point3d(blk5.Position.X, blk5.Position.Y, 0);
                                 if (ArxHelper.BuildPolylineFrom3Point(pt1,pt2,pt3))
                                 {
-
+                                    ArxHelper.BuildPolylineFrom2Point(pt4, pt5);
                                 }
+                                
                                 else if (ArxHelper.BuildPolylineFrom3Point(pt1,pt2,pt4))
                                 {
-
+                                    ArxHelper.BuildPolylineFrom2Point(pt3, pt5);
                                 }
                                 else if (ArxHelper.BuildPolylineFrom3Point(pt1,pt2,pt5))
                                 {
 
+                                    ArxHelper.BuildPolylineFrom2Point(pt4, pt3);
                                 }
                                 else if (ArxHelper.BuildPolylineFrom3Point(pt2,pt3,pt4))
                                 {
-
+                                    ArxHelper.BuildPolylineFrom2Point(pt1, pt5);
                                 }
                                 else if (ArxHelper.BuildPolylineFrom3Point(pt2,pt3,pt5))
                                 {
-
+                                    ArxHelper.BuildPolylineFrom2Point(pt1, pt4);
                                 }
                                 else if (ArxHelper.BuildPolylineFrom3Point(pt3,pt4,pt5))
                                 {
-
+                                    ArxHelper.BuildPolylineFrom2Point(pt1, pt2);
                                 }
 
                             }

@@ -295,6 +295,37 @@ namespace BlockAttributePrj
             }
             return false;
         }
+        public static bool BuildPolylineFrom2Point(Point3d pt1, Point3d pt2)
+        {
+            //Get document, DataBase and Editor
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+
+            Database db = doc.Database;
+
+            Editor ed = doc.Editor;
+            PromptPointOptions op = new PromptPointOptions("Pick Direction:");
+            op.UseBasePoint = true;
+            op.BasePoint = pt1;
+            Line line = new Line(pt1, pt2);
+            PromptPointResult r = ed.GetPoint(op);
+            if (r.Status == PromptStatus.OK)
+            {
+                Point3dCollection pts = new Point3dCollection();
+                Point3d pt = line.GetClosestPointTo(r.Value, true);
+                Point3d EndPoint = pt1 + (r.Value - pt).GetNormal() * 3;
+                Point3d StartPoint = pt2 + (r.Value - pt).GetNormal() * 3;
+                Point3dCollection vertex = new Point3dCollection();
+                vertex.Add(EndPoint);
+                vertex.Add(pt1);
+                vertex.Add(pt2);
+                vertex.Add(StartPoint);
+                Polyline3d pl3d = new Polyline3d(Poly3dType.SimplePoly, vertex, false);
+                ArxHelper.AppendEntity(pl3d);
+                vertex.Dispose();
+                return true;
+            }
+            return false;
+        }
     }
     public class SegmentInfor
     {
