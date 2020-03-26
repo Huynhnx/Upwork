@@ -883,8 +883,8 @@ namespace BlockAttributePrj
                 }
             }
         }
-        [CommandMethod("TransformToXOY")]
-        public static void GetAngle()
+        [CommandMethod("ConnectPntToLine")]
+        public static void ConnectPntToLine()
         {
             //Get document, DataBase and Editor
             Document doc = Application.DocumentManager.MdiActiveDocument;
@@ -892,35 +892,55 @@ namespace BlockAttributePrj
             Database db = doc.Database;
 
             Editor ed = doc.Editor;
-            PromptSelectionResult res = ed.SelectAll();
+            TypedValue[] filList = new TypedValue[1] { new TypedValue((int)DxfCode.Start, "INSERT") };
+
+            SelectionFilter filter = new SelectionFilter(filList);
+
+            PromptSelectionOptions opts = new PromptSelectionOptions();
+
+            opts.MessageForAdding = "Select block references: ";
+            PromptSelectionResult res = ed.GetSelection(opts, filter);
             if (res.Status != PromptStatus.OK)
             {
                 return;
             }
-
-            if (res.Value.Count != 0)
+            //Select Vertex
+            PromptSelectionOptions opts2 = new PromptSelectionOptions();
+            opts2.MessageForAdding = "Select PolyLine: ";
+            PromptSelectionResult selRes2 = ed.GetSelection(opts2);
+            if (selRes2.Status != PromptStatus.OK)
             {
-                SelectionSet set = res.Value;
-                ObjectId[] Ids = set.GetObjectIds();
-                //Select 2 block
+                return;
+            }
+            SelectionSet set = res.Value;
+            ObjectId[] BlockIds = set.GetObjectIds();
+            SelectionSet set2 = selRes2.Value;
+            ObjectId[] PolyLineIds = set2.GetObjectIds();
+            // Case 1: Select 1 Polyline
+            if (PolyLineIds.Length == 1 && BlockIds.Length > 1)
+            {
+                List<Point3d> ListPointBlock = new List<Point3d>();
                 using (Transaction tr = db.TransactionManager.StartTransaction())
                 {
-                    foreach (ObjectId id in Ids)
-                {
-                   
-                        BlockReference blk1 = tr.GetObject(id, OpenMode.ForWrite) as BlockReference;
-                        if (blk1 != null)
+                    Polyline pl = (Polyline)tr.GetObject(PolyLineIds[0], OpenMode.ForWrite);
+                    foreach(ObjectId id in BlockIds)
+                    {
+                        if (id.IsErased == true || id.IsValid == true)
                         {
-                            Point3d pt = new Point3d(blk1.Position.X, blk1.Position.Y, 0);
-                            blk1.TransformBy(Matrix3d.Displacement(pt - blk1.Position));
+                            continue;
                         }
-                       
-                       
+                        BlockReference blk = tr.GetObject(id,OpenMode.ForRead) as BlockReference;
+                        if (blk!= null)
+                        {
+                            Point3d pt = new Point3d(blk.Position.X, blk.Position.Y, 0);
+                            ListPointBlock.Add(pt);
+                        }
                     }
-                    tr.Commit();
+
                 }
-               
             }
         }
+
+
     }
 }

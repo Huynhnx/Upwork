@@ -326,6 +326,26 @@ namespace BlockAttributePrj
             }
             return false;
         }
+        /// <summary>
+        /// Get closet poin with given Point
+        /// </summary>
+        /// <param name="givenPoint"></param>
+        /// <param name="pts"></param>
+        /// <returns></returns>
+        public static Point3d GetClosetPoint(Point3d givenPoint,List<Point3d> pts)
+        {
+            double dis = givenPoint.DistanceTo(pts[0]);
+            int index = 0;
+            for(int i=0;i< pts.Count;i++)
+            {
+                Point3d pt = pts[i];
+                if (dis> pt.DistanceTo(givenPoint))
+                {
+                    index = i;
+                }
+            }
+            return pts[index];
+        }
     }
     public class SegmentInfor
     {
