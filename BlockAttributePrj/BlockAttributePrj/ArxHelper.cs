@@ -1,4 +1,4 @@
-﻿using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
@@ -332,7 +332,7 @@ namespace BlockAttributePrj
         /// <param name="givenPoint"></param>
         /// <param name="pts"></param>
         /// <returns></returns>
-        public static Point3d GetClosetPoint(Point3d givenPoint,List<Point3d> pts)
+        public static Point3d GetClosetPoint(Point3d givenPoint,Point3dCollection pts)
         {
             double dis = givenPoint.DistanceTo(pts[0]);
             int index = 0;
@@ -345,6 +345,26 @@ namespace BlockAttributePrj
                 }
             }
             return pts[index];
+        }
+        public static bool IsPointOnPolyline(Polyline pl, Point3d pt)
+        {
+            bool isOn = false;
+            for (int i = 0; i < pl.NumberOfVertices; i++)
+            {
+                Curve3d seg = null;
+                SegmentType segType = pl.GetSegmentType(i);
+                if (segType == SegmentType.Arc)
+                    seg = pl.GetArcSegmentAt(i);
+                else if (segType == SegmentType.Line)
+                    seg = pl.GetLineSegmentAt(i);
+                if (seg != null)
+                {
+                    isOn = seg.IsOn(pt);
+                    if (isOn)
+                        break;
+                }
+            }
+            return isOn;
         }
     }
     public class SegmentInfor
