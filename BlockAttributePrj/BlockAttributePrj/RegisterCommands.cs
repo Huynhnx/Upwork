@@ -1,4 +1,4 @@
-﻿using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.ApplicationServices.Core;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
@@ -919,13 +919,13 @@ namespace BlockAttributePrj
             // Case 1: Select 1 Polyline
             if (PolyLineIds.Length == 1 && BlockIds.Length > 1)
             {
-                List<Point3d> ListPointBlock = new List<Point3d>();
+                Point3dCollection ListPointBlock = new Point3dCollection();
                 using (Transaction tr = db.TransactionManager.StartTransaction())
                 {
                     Polyline pl = (Polyline)tr.GetObject(PolyLineIds[0], OpenMode.ForWrite);
                     foreach(ObjectId id in BlockIds)
                     {
-                        if (id.IsErased == true || id.IsValid == true)
+                        if (id.IsErased == true || id.IsValid == false)
                         {
                             continue;
                         }
@@ -935,6 +935,125 @@ namespace BlockAttributePrj
                             Point3d pt = new Point3d(blk.Position.X, blk.Position.Y, 0);
                             ListPointBlock.Add(pt);
                         }
+                    }
+                    Point3d ptStart = ArxHelper.GetClosetPoint(pl.StartPoint, ListPointBlock);
+                    Point3dCollection verx = new Point3dCollection();
+                    verx.Add(ptStart);
+                    ListPointBlock.Remove(ptStart);
+                    for (int i=0;i< ListPointBlock.Count;i++)
+                    {
+                        Point3d closer= ArxHelper.GetClosetPoint(ptStart, ListPointBlock);
+                        verx.Add(closer);
+                        ptStart = closer;
+                        ListPointBlock.Remove(closer);
+                        i = 0;
+                    }
+                    verx.Add(ListPointBlock[0]);
+                    Xline atStart = new Xline();
+                    atStart.BasePoint = verx[0];
+                    atStart.UnitDir = verx[1] - verx[2];
+                    Point3dCollection intersectPts = new Point3dCollection();
+                    atStart.IntersectWith(pl, Intersect.OnBothOperands, intersectPts, IntPtr.Zero, IntPtr.Zero);
+                    if (intersectPts.Count>0)
+                    {                  
+                        Point3d ptOnPl = ArxHelper.GetClosetPoint(verx[0], intersectPts);
+                        verx.Insert(0, ptOnPl);
+                    }
+                    else
+                    {
+                        ed.WriteMessage("\nCan not Close Polyline");
+                    }
+                    Xline atEnd = new Xline();
+                    atEnd.BasePoint = verx[verx.Count -1];
+                    atEnd.UnitDir = verx[verx.Count - 1] - verx[verx.Count - 2];
+                    Point3dCollection intersectPts2 = new Point3dCollection();
+                    atEnd.IntersectWith(pl, Intersect.OnBothOperands, intersectPts2, IntPtr.Zero, IntPtr.Zero);
+                    if (intersectPts2.Count>0)
+                    {
+                        Point3d ptOnPlEnd = ArxHelper.GetClosetPoint(verx[verx.Count - 1], intersectPts2);
+                        verx.Add(ptOnPlEnd);
+                    }
+                    else
+                    {
+                        ed.WriteMessage("\nCan not Close Polyline");
+                    }
+                    Polyline3d pl3d = new Polyline3d(Poly3dType.SimplePoly, verx, false);
+                    ArxHelper.AppendEntity(pl3d);
+                    tr.Commit();
+                }
+            }
+
+            if (PolyLineIds.Length == 2 && BlockIds.Length > 1)
+            {
+                // Case 3: Select 2 polyline And Have a block on a Polyline
+                Point3dCollection ListPointBlock = new Point3dCollection();
+                using (Transaction tr = db.TransactionManager.StartTransaction())
+                {
+                    Polyline pl1 = (Polyline)tr.GetObject(PolyLineIds[0], OpenMode.ForWrite);
+                    Polyline pl2 = (Polyline)tr.GetObject(PolyLineIds[1], OpenMode.ForWrite);
+                    foreach (ObjectId id in BlockIds)
+                    {
+                        if (id.IsErased == true || id.IsValid == false)
+                        {
+                            continue;
+                        }
+                        BlockReference blk = tr.GetObject(id, OpenMode.ForRead) as BlockReference;
+                        if (blk != null)
+                        {
+                            Point3d pt = new Point3d(blk.Position.X, blk.Position.Y, 0);
+                            ListPointBlock.Add(pt);
+                        }
+                    }
+                    int HaveAPointOnPl = 0;
+                    Point3d ptOnPl = new Point3d();
+                    //Check On Pl1
+                    foreach (Point3d pt in ListPointBlock)
+                    {
+                        if(ArxHelper.IsPointOnPolyline(pl1,pt)== true)
+                        {
+                            HaveAPointOnPl = 1;
+                            ptOnPl = pt;
+                            break;
+                        }
+                        if (ArxHelper.IsPointOnPolyline(pl2, pt) == true)
+                        {
+                            HaveAPointOnPl = 2;
+                            ptOnPl = pt;
+                            break;
+                        }
+                    }
+                    if (HaveAPointOnPl>0)
+                    {
+                        Point3dCollection verx = new Point3dCollection();
+                        verx.Add(ptOnPl);
+                        ListPointBlock.Remove(ptOnPl);
+                        for (int i = 0; i < ListPointBlock.Count; i++)
+                        {
+                            Point3d closer = ArxHelper.GetClosetPoint(ptOnPl, ListPointBlock);
+                            verx.Add(closer);
+                            ptOnPl = closer;
+                            ListPointBlock.Remove(closer);
+                            i = 0;
+                        }
+                        verx.Add(ListPointBlock[0]);
+                        if (HaveAPointOnPl ==1)
+                        {
+                            if (ArxHelper.IsPointOnPolyline(pl2, ListPointBlock[0]) == false)
+                            {
+                                Line line = new Line(verx[verx.Count -1],verx[verx.Count -2]);
+                                Point3dCollection ptonpl = new Point3dCollection();
+                                line.IntersectWith(pl2, Intersect.ExtendBoth, ptonpl, IntPtr.Zero, IntPtr.Zero);
+                                if (ptonpl.Count>0)
+                                {
+                                    verx.Add(ArxHelper.GetClosetPoint(verx[verx.Count - 1], ptonpl));
+
+                                }
+                            }
+                        }
+                       
+                        Polyline3d pl3d = new Polyline3d(Poly3dType.SimplePoly, verx, false);
+                        ArxHelper.AppendEntity(pl3d);
+                        tr.Commit();
                     }
 
                 }
