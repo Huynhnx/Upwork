@@ -2922,8 +2922,8 @@ namespace BlockAttributePrj
 
             }
         }
-        [CommandMethod("SplitPolyline")]
-        public static void SplitPl()
+       [CommandMethod("PointInPoly")]
+        public static void PointInPoly()
         {
             Document acDoc = Application.DocumentManager.MdiActiveDocument;
             Database acCurDb = acDoc.Database;
@@ -2939,23 +2939,57 @@ namespace BlockAttributePrj
             }
             SelectionSet set = res.Value;
             ObjectId[] Ids = set.GetObjectIds();
-            using (Transaction acTrans = acCurDb.TransactionManager.StartTransaction())
+            PromptPointResult pPtRes;
+            PromptPointOptions pPtOpts = new PromptPointOptions("");
+            // Prompt for a point
+            pPtOpts.Message = "\nOrigin Point: ";
+            pPtRes = acDoc.Editor.GetPoint(pPtOpts);
+            Point3d pPtOrigin;
+            // If a point was entered, then translate it to the current UCS
+            if (pPtRes.Status == PromptStatus.OK)
             {
-                Polyline pl = acTrans.GetObject(Ids[0],OpenMode.ForWrite) as Polyline;
-                Point3dCollection pts = new Point3dCollection();
-               
-                pts.Add( pl.GetPoint3dAt(0));
-                pts.Add( pl.GetPoint3dAt(1));
-                DBObjectCollection pls = pl.GetSplitCurves(pts);
-                foreach (DBObject obj in pls)
+                pPtOrigin = pPtRes.Value;
+                using (Transaction acTrans = acCurDb.TransactionManager.StartTransaction())
                 {
-                    var cur = obj as Polyline;
-                    if (cur != null)
+                    Polyline polygon = acTrans.GetObject(Ids[0],OpenMode.ForRead) as Polyline;
+                    if(ArxHelper.IsPointOnPolyline(polygon, pPtOrigin))
                     {
-                        ArxHelper.AppendEntity(cur);
+                        ed.WriteMessage("\n Point On Polyline");
                     }
+                    Xline xl = new Xline();
+                    xl.BasePoint = pPtOrigin;
+                    xl.UnitDir = Vector3d.XAxis;
+                    Point3dCollection listPt = new Point3dCollection();
+                    xl.IntersectWith(polygon,Intersect.OnBothOperands,listPt,IntPtr.Zero,IntPtr.Zero);
+                    if (listPt.Count>0)
+                    {
+                        Point3dCollection pts = new Point3dCollection();
+                        foreach (Point3d pt in listPt)
+                        {
+                            if (pt.X> pPtOrigin.X)
+                            {
+                                if (ArxHelper.PointIsVertices(pt,polygon))
+                                {
+                                    pts.Add(pt);
+                                }
+                                pts.Add(pt);
+                            }
+                        }
+                        if (pts.Count == 0)
+                        {
+                            ed.WriteMessage("\n Point Outside Polyline");
+                        }
+                        if (pts.Count % 2 != 0)
+                        {
+                            ed.WriteMessage("\n Point Inside Polyline");
+                        }
+                        else
+                        {
+                            ed.WriteMessage("\n Point Outside Polyline");
+                        }
+                    }
+                    acTrans.Commit();
                 }
-                acTrans.Commit();
             }
         }
     }
